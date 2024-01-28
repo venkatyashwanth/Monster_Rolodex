@@ -2,26 +2,25 @@ import { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  state = {
-    monsters: [
-      {
-        id:1,
-        name: 'Linda'
+  constructor(){
+    super();
+    this.state={
+      monsters: []
+    }
+  }
+  
+
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then((users) => this.setState(() => {
+        return { monsters: users }
       },
-      {
-        id:2,
-        name: 'Frank'
-      },
-      {
-        id:3,
-        name: 'Jacky'
-      },
-      {
-        id:4,
-        name: 'Venky'
-      },
-    ]
-  };
+        () => {
+          console.log(this.state);
+        }
+      ))
+  }
 
   render() {
     const monstersList = this.state.monsters;
