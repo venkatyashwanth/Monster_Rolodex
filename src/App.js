@@ -2,25 +2,35 @@ import { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  state = { name: { firstName: "venkat", lastName: 'mudili' } };
+  state = {
+    monsters: [
+      {
+        id:1,
+        name: 'Linda'
+      },
+      {
+        id:2,
+        name: 'Frank'
+      },
+      {
+        id:3,
+        name: 'Jacky'
+      },
+      {
+        id:4,
+        name: 'Venky'
+      },
+    ]
+  };
+
   render() {
-    const { name } = this.state;
-    const firstName = name.firstName;
-    const lastName = name.lastName;
+    const monstersList = this.state.monsters;
     return (
-      <>
-        <p>This is my name: {firstName} {lastName}</p>
-        <button onClick={() => {
-          this.setState(
-            () => {
-              return { name: { firstName: "yashwanth", lastName: 'mudili' } }
-            },
-            () => {
-              console.log(this.state)
-            }
-          )
-        }}>Change Name</button>
-      </>
+      <div>
+        {monstersList.map((monster) => {
+          return <h1 key={monster.id}>{monster.name}</h1>;
+        })}
+      </div>
     )
   }
 }
