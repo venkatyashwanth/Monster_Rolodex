@@ -7,6 +7,7 @@ import './App.css';
 const App = () => {
   const [searchField, setSearchField] = useState('');
   const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters,setFilterdMonsters] = useState(monsters);
   const [string,setString] = useState("");
 
   useEffect(() => {
@@ -15,6 +16,14 @@ const App = () => {
       .then((users) => setMonsters(users));
   }, [])
 
+  useEffect(() => {
+    const newfilteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLowerCase().includes(searchField);
+    })
+    setFilterdMonsters(newfilteredMonsters)
+    console.log("effect is firing"); //Only Runs when ever search field changes. 
+  },[monsters,searchField])
+
   const onSearchChange = (event) => {
     const searchFieldString = event.target.value.toLowerCase();
     setSearchField(searchFieldString)
@@ -22,13 +31,8 @@ const App = () => {
 
   const onStringChange = (event) => {
     setString(event.target.value);
-  } //This function is effecting the filterMonsters, even though it is not dependant on that. 
+  } //This cant console log effect is firing
 
-  const filterMonsters = monsters.filter((monster) => {
-    return monster.name.toLowerCase().includes(searchField);
-  })//this is entry point 
-
-  console.log(filterMonsters);
 
   return (
     <>
@@ -36,7 +40,7 @@ const App = () => {
         <h1 className='app-title'>Monster Rolodex</h1>
         <SearchBox onChangeHandler={onSearchChange} placeholder='Search Monsters' className='monsters-search-box' />
         <SearchBox onChangeHandler={onStringChange} placeholder='Search String'/>
-        <CardList monsters={filterMonsters} />
+        <CardList monsters={filteredMonsters} />
       </div>
     </>
   )
